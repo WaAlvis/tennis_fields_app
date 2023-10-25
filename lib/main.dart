@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tennis_fields_app/presentation/home_screen.dart';
+import 'package:tennis_fields_app/presentation/providers/weather_provider.dart';
 
 void main() => runApp(const MyApp());
 
@@ -9,13 +12,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tennis Fields',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Material App Bar'),
-        ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => WeatherProvider(),lazy: false,
+          ),
+        ],
+        child: const HomeScreen(),
       ),
     );
   }
