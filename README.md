@@ -1,6 +1,11 @@
-# tennis_fields_app
+# Tennis Fields
 
-A new Flutter project.
+# Dev
+
+1. Copiar el .env.template y renombrarlo a .env
+2. Cambiarlas variables de entorno (OpenWeatherMap)
+
+
 
 ## Getting Started
 
