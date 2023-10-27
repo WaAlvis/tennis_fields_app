@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:tennis_fields_app/presentation/home_screen.dart';
-import 'package:tennis_fields_app/presentation/providers/weather_provider.dart';
+import 'package:tennis_fields_app/config/router/app_router.dart';
+import 'package:tennis_fields_app/config/theme/app_theme.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,16 +9,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Tennis Fields',
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (_) => WeatherProvider(),lazy: false,
-          ),
-        ],
-        child: const HomeScreen(),
-      ),
+      debugShowCheckedModeBanner: false,
+      routerConfig: appRouter,
+      theme: AppTheme().getTheme(),
     );
   }
 }
