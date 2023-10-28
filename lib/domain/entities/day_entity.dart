@@ -1,11 +1,11 @@
 import 'package:tennis_fields_app/domain/entities/entities.dart';
 
-class Day {
+class DayEntity {
   final String date;
-  final WeatherForecast forecast;
+  final WeatherForecastEntity forecast;
   
 
-  Day({
+  DayEntity({
     required this.date,
     required this.forecast,
     

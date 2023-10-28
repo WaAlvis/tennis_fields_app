@@ -1,9 +1,9 @@
-class WeatherForecast {
+class WeatherForecastEntity {
   final int tempCelsius;
   final double uvIndex;
   final double chanceRain;
 
-  WeatherForecast({
+  WeatherForecastEntity({
     required this.tempCelsius,
     required this.uvIndex,
     required this.chanceRain,

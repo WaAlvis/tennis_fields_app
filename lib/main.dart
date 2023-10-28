@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:tennis_fields_app/config/router/app_router.dart';
 import 'package:tennis_fields_app/config/theme/app_theme.dart';
+import 'package:tennis_fields_app/infrastructure/datasources/local_bookings.dart';
+import 'package:tennis_fields_app/infrastructure/repositories/booking_repository_impl.dart';
+import 'package:tennis_fields_app/presentation/providers/booking_provider.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
@@ -14,11 +18,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Tennis Fields',
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRouter,
-      theme: AppTheme().getTheme(),
+    final bookingsRepository =
+        BookingRepositoryImpl(bookingsDatasource: LocalBookingsDatasource());
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => BookingProvider(
+            bookingsRepository: bookingsRepository,
+          ),
+          lazy: false,
+        ),
+      ],
+      child: MaterialApp.router(
+        title: 'Tennis Fields',
+        debugShowCheckedModeBanner: false,
+        routerConfig: appRouter,
+        theme: AppTheme().getTheme(),
+      ),
     );
   }
 }

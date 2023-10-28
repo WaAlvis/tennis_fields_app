@@ -1,6 +1,6 @@
 import 'package:tennis_fields_app/domain/entities/entities.dart';
 
-class Field {
+class FieldEntity {
   final String id;
   final String name;
   final String description;
@@ -8,7 +8,7 @@ class Field {
   final bool free;
   
 
-  Field({
+  FieldEntity({
     required this.id,
     required this.name,
     required this.description,
