@@ -4,6 +4,8 @@ class FieldLocalDB {
     final String description;
     final int freeSpaces;
     final bool free;
+    final String urlImg;
+  
 
     FieldLocalDB({
         required this.id,
@@ -11,6 +13,8 @@ class FieldLocalDB {
         required this.description,
         required this.freeSpaces,
         required this.free,
+        required this.urlImg
+        ,
     });
 
     factory FieldLocalDB.fromJson(Map<String, dynamic> json) => FieldLocalDB(
@@ -19,6 +23,7 @@ class FieldLocalDB {
         description: json["description"],
         freeSpaces: json["freeSpaces"],
         free: json["free"],
+        urlImg: json["urlImg"]??'https://www.competize.com/blog/wp-content/uploads/2020/11/pista-tenis-arcilla-pelotas-750x563.jpg',
     );
 
     Map<String, dynamic> toJson() => {
@@ -27,5 +32,6 @@ class FieldLocalDB {
         "description": description,
         "freeSpaces": freeSpaces,
         "free": free,
+        "urlImg": urlImg,
     };
 }
