@@ -5,7 +5,10 @@ import 'package:tennis_fields_app/config/router/app_router.dart';
 import 'package:tennis_fields_app/config/theme/app_theme.dart';
 import 'package:tennis_fields_app/infrastructure/datasources/local_bookings.dart';
 import 'package:tennis_fields_app/infrastructure/repositories/booking_repository_impl.dart';
-import 'package:tennis_fields_app/presentation/providers/booking_provider.dart';
+import 'package:tennis_fields_app/presentation/providers/providers.dart';
+
+import 'infrastructure/datasources/open_weather_map.dart';
+import 'infrastructure/repositories/weather_repository_impl copy.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: '.env');
@@ -20,6 +23,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final bookingsRepository =
         BookingRepositoryImpl(bookingsDatasource: LocalBookingsDatasource());
+    final weathersRepository =
+        WeatherRepositoryImpl(weathersDatasource: OpenweathermapDatasource());
 
     return MultiProvider(
       providers: [
@@ -29,6 +34,12 @@ class MyApp extends StatelessWidget {
           ),
           lazy: false,
         ),
+        ChangeNotifierProvider(
+          create: (_) => WeatherProvider(
+            weathersRepository: weathersRepository,
+          ),
+          lazy: false,
+        )
       ],
       child: MaterialApp.router(
         title: 'Tennis Fields',

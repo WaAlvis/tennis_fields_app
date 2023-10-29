@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis_fields_app/config/helpers/group_day.dart';
-import 'package:tennis_fields_app/domain/entities/booking_entity.dart';
+import 'package:tennis_fields_app/domain/entities/entities.dart';
 import 'package:tennis_fields_app/presentation/providers/booking_provider.dart';
-import 'package:tennis_fields_app/presentation/screens/screens.dart';
+import 'package:tennis_fields_app/presentation/providers/weather_provider.dart';
+import 'package:tennis_fields_app/presentation/screens/widgets/current_weather.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -14,25 +16,42 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bookingProvider = context.watch<BookingProvider>();
+    final weatherProvider = context.watch<WeatherProvider>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Ace Arena Tenis Club'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {
-              //TODO: implementar favoritos
-            },
-          )
-        ],
-      ),
-      body: bookingProvider.intialLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
+        appBar: AppBar(
+          title: const Text('Ace Arena Tenis Club'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.favorite),
+              onPressed: () {
+                //TODO: implementar favoritos con Preferences
+              },
             )
-          : _BookingListView(bookingProvider.bookings),
-    );
+          ],
+        ),
+        body: Column(
+          children: [
+            weatherProvider.intialLoading
+                ? const SizedBox.shrink()
+                // CurrentWeather(weather: )
+                : FutureBuilder(
+                  future: weatherProvider.weathersRepository
+                      .getWeatherCurrent(),
+                  // initialData: InitialData,
+                  builder:
+                      (_, AsyncSnapshot<WeatherForecastEntity> snapshot) {
+                    if (!snapshot.hasData) {
+                      return const CupertinoActivityIndicator();
+                    }
+                    return CurrentWeather(weather: snapshot.data!);
+                  },
+                ),
+            bookingProvider.intialLoading
+                ? const SizedBox.shrink()
+                : Expanded(child: _BookingListView(bookingProvider.bookings)),
+          ],
+        ));
   }
 }
 
@@ -46,14 +65,11 @@ class _BookingListView extends StatelessWidget {
     final Map<String, List<BookingEntity>> bookingsByDay =
         GroupDay.groupBookingsByDay(bookings);
 
-        
-
     return ListView.builder(
       itemCount: bookingsByDay.length,
       itemBuilder: (context, i) {
         final date = bookingsByDay.keys.elementAt(i);
         final dateBookings = bookingsByDay[date];
-
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,12 +81,15 @@ class _BookingListView extends StatelessWidget {
                   children: [
                     _InfoIcon(
                         icon: Icons.thermostat,
-                        info: '${bookings[i].day.forecast.tempCelsius.toString()} Cº'),
-                        SizedBox(width: 12,),
-                    
-                        _InfoIcon(
+                        info:
+                            '${bookings[i].day.forecast.tempCelsius.toString()} Cº'),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    _InfoIcon(
                         icon: Icons.cloudy_snowing,
-                        info: '${bookings[i].day.forecast.chanceRain.toString()} %'),
+                        info:
+                            '${bookings[i].day.forecast.chanceRain.toString()} %'),
                   ],
                 ),
                 title: Padding(
@@ -128,7 +147,10 @@ class _InfoIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Icon(icon, size: 20,),
+        Icon(
+          icon,
+          size: 20,
+        ),
         Text(info),
       ],
     );

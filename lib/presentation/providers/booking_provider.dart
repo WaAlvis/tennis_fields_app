@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tennis_fields_app/domain/entities/entities.dart';
-import 'package:tennis_fields_app/domain/repositories/bookings_repository.dart';
+import 'package:tennis_fields_app/domain/repositories/bookings/bookings_repository.dart';
 
 class BookingProvider extends ChangeNotifier {
   List<BookingEntity> bookings = [];

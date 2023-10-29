@@ -3,7 +3,8 @@ import 'package:tennis_fields_app/infrastructure/mappers/local_db/booking_mapper
 import 'package:tennis_fields_app/infrastructure/models/local_db/booking_local_db.dart';
 import 'package:tennis_fields_app/shared/data/local_bookings.dart';
 
-import '../../domain/datasources/bookings_datasource.dart';
+import '../../domain/datasources/bookings/bookings_datasource.dart';
+
 import '../../shared/preferences/preferences.dart';
 
 class PreferenceFavoritesDatasource extends BookingsDatasource {

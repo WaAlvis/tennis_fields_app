@@ -119,7 +119,11 @@ packages:
       sha256: e156bc1b2088eb5ece9351bccd48c3e1719a4858eacbd44e59162e98a68205d1
       url: "https://pub.dev"
     source: hosted
+<<<<<<< Updated upstream
     version: "12.0.1"
+=======
+    version: "12.0.0"
+>>>>>>> Stashed changes
   http_parser:
     dependency: transitive
     description:
