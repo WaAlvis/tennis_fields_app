@@ -50,10 +50,27 @@ class _CustomAppBar extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        background: FadeInImage(
-          placeholder: const AssetImage('assets/images/loading.gif'),
-          image: NetworkImage(field.urlImg),
-          fit: BoxFit.cover,
+        background: Stack(
+          children: [
+            Positioned.fill(
+              child: FadeInImage(
+                placeholder: const AssetImage('assets/images/loading.gif'),
+                image: NetworkImage(field.urlImg),
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: 40,
+              right: 40,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
